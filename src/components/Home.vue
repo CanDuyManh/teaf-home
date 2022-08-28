@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div class="azzz">
     <v-carousel hide-delimiters>
       <v-carousel-item
         v-for="(item,i) in slide_baner"

@@ -1,7 +1,7 @@
 
 
 <template id="teaf-main">
-  <v-app>
+  <v-app class="app-cls">
   <v-navigation-drawer 
       v-model="drawer"
       absolute
@@ -43,7 +43,7 @@
 
       <div v-show="!$store.state.responsive" >
         <router-link v-for="item in nav_header"   :key="item.title"
-         class="me-3 ms-5 btn-icon routerlink" style="color: black;" :to="item.link"
+         class="me-3 ms-5 btn-icon routerlink" :to="item.link"
          >
          {{item.title}}
         </router-link>
@@ -63,7 +63,6 @@
   <v-sheet
       id="scrolling-techniques-7"
       class="overflow-y-auto"
-      max-height="600"
     >
 
   <!-- Sizes your content based upon application components -->
@@ -130,8 +129,17 @@ export default {
 </script>
 
 <style>
+  @import url(https://fonts.googleapis.com/css?family=Open%20Sans);
   *, .v-list-item__title, .v-label{
-    font-size:  13px;
+    font-size:  14px;
+    font-family: 'open sans';
+  }
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  a:hover {
+    color: #b81f32;
   }
   .v-list-item {
         min-height: 25px;
