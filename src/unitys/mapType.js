@@ -1,0 +1,18 @@
+module.exports = {
+    active: 'select',
+    category_id: 'number',
+    category: 'string',
+    comment_amout: 'number',
+    createdAt: 'date',
+    description: 'textarea',
+    discount_pd: 'number',
+    id: 'number',
+    image_id: 'number',
+    image: 'file',
+    inventory: 'number',
+    name: 'string',
+    price: 'number',
+    sold: 'number',
+    updatedAt: 'date',
+    vote: 'number',
+}
