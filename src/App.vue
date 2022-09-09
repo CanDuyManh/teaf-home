@@ -54,11 +54,18 @@
       <div class="box-user">
         
       </div>
-
       <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
+      <v-badge
+        :color="$store.state.total_cart ? 'pink accent-3' : ''"
+        :content="$store.state.total_cart"
+        overlap
+      >
+        <v-icon>
+          mdi-cart
+        </v-icon>
+      </v-badge>
       </v-btn>
-
+      <span class="ms-2"><a href="/login">Đăng nhập</a></span>
   </v-app-bar>
   <v-sheet
       id="scrolling-techniques-7"
@@ -88,6 +95,8 @@
 </template>
 
 <script>
+
+// import axios from 'axios';
 import ProductManager from './components/ProductManager';
 
 export default {
@@ -121,6 +130,10 @@ export default {
   created() {
     this.onResize();
     window.addEventListener('resize', this.onResize)
+
+    //load total detail
+    // axios.get('')
+
   },
 
   beforeDestroy() {
@@ -150,6 +163,12 @@ export default {
     background-color: #FFCDD2 !important;
     border-color: #FFCDD2 !important;
   }
+
+  .text-hover:hover{
+    cursor: pointer;
+    color: #b81f32 !important;
+  }
+
   .btn-table-setting .v-btn__content{
     font-size:  9px;
   }

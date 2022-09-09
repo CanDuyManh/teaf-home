@@ -13,6 +13,7 @@ export default new Vuex.Store({
         Data: sessionStorage.getItem('data') || "",
         router: [],
         responsive: false,
+        total_cart: 0,
         nav: 
         [{
             title: 'Trang chủ',

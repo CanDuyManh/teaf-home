@@ -23,6 +23,14 @@ const routes = [
             requiresAuth: true
         }
     },
+    {
+        path: "/login",
+        component: () =>
+            import ('../components/Login.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
 
 ]
 const router = new VueRouter({
