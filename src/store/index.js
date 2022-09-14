@@ -1,11 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
+const cookies = require('vue-cookies');
 Vue.use(Vuex);
 
 export default new Vuex.Store({
 
     state: {
-        token: sessionStorage.getItem('token') || "",
+        token: cookies.get('token') || "",
         rvc: sessionStorage.getItem('rvc') || "",
         api: "http://localhost:3000/api/v1/",
         routerload: false,
@@ -14,6 +15,10 @@ export default new Vuex.Store({
         router: [],
         responsive: false,
         total_cart: 0,
+        user: cookies.get('user') || {
+            id: '',
+            name: '',
+        },
         nav: 
         [{
             title: 'Trang chủ',

@@ -54,18 +54,20 @@
       <div class="box-user">
         
       </div>
-      <v-btn icon>
+      <v-btn icon to="/cart">
       <v-badge
         :color="$store.state.total_cart ? 'pink accent-3' : ''"
         :content="$store.state.total_cart"
         overlap
       >
-        <v-icon>
+        <v-icon >
+          
           mdi-cart
         </v-icon>
       </v-badge>
       </v-btn>
-      <span class="ms-2"><a href="/login">Đăng nhập</a></span>
+      <span class="ms-2"><a :href="$store.state.user.user_name ? '/setting': '/login'">
+      {{$store.state.user.user_name || 'Đăng nhập'}}</a></span>
   </v-app-bar>
   <v-sheet
       id="scrolling-techniques-7"
@@ -78,7 +80,6 @@
     <!-- Provides the application the proper gutter -->
       <!-- If using vue-router -->
       <router-view>
-        <ProductManager></ProductManager>
       </router-view>
   </v-main>
   </v-sheet>
@@ -96,14 +97,12 @@
 
 <script>
 
-// import axios from 'axios';
-import ProductManager from './components/ProductManager';
+import axios from 'axios';
 
 export default {
   name: 'App',
 
   components: {
-    ProductManager,
   },
 
   data: () => ({
@@ -132,7 +131,7 @@ export default {
     window.addEventListener('resize', this.onResize)
 
     //load total detail
-    // axios.get('')
+    axios.get('')
 
   },
 

@@ -6,7 +6,14 @@ import store from '../store/index.js'
 Vue.use(VueRouter);
 
 const routes = [
-   
+    {
+        path: "/cart",
+        component: () =>
+            import ('../components/Cart.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
     {
         path: "/home",
         component: () =>

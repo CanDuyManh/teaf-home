@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: 'ProductManager',
   data: () => ({
@@ -58,6 +59,25 @@ export default {
         this.err = true;
         return this.notification = 'Hãy nhập password !';
       }
+      let dataToSend = {
+        user_name: this.user_name,
+        password: this.password,
+      }
+      axios.post(this.$store.state.api + 'auth/login',dataToSend).then( res => {
+        const { data } = res;
+        if (data.status == 400 ){
+          this.err = true;
+          return this.notification = data.message;
+        } else if (data.status == 200 ){
+          this.$store.state.token = data.token;
+          this.$store.state.user = data.user;
+          this.$cookies.set('token', data.token);
+          this.$cookies.set('user', data.user);
+          this.$router.push('/menu');
+        }
+
+      });
+
       
     },
     listenKeyup(event) {
@@ -68,6 +88,9 @@ export default {
   },
   created() {
     window.addEventListener('keyup', this.listenKeyup);
+    if (this.$store.state.token && this.$store.state.user.id) {
+      this.$router.push('/menu')
+    } 
   },
 }
 </script>

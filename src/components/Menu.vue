@@ -65,7 +65,11 @@
                       </div>
                     </v-col>
                     <v-col class="mt-2" :cols="$store.state.responsive ? 12 : 5">
-                      <v-btn small dens class="mt-3 d-inline me-2" style="letter-spacing: normal; text-transform: none;background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;">Thêm vào giỏ</v-btn>
+                      <v-btn small dens class="mt-3 d-inline me-2" 
+                      style="letter-spacing: normal; text-transform: none;
+                      background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;"
+                      @click="addToCart()"
+                      >Thêm vào giỏ</v-btn>
                       <v-btn small dens class="mt-3 d-inline" style="letter-spacing: normal; text-transform: none;background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;">Mua ngay</v-btn>
 
                     </v-col>
@@ -102,7 +106,7 @@
                         <tr
                           v-for="(item, index) in productDetail"
                           :key="item.index"
-                          @click="sizeSelect = item.size; priceSelect = item.price"
+                          @click="sizeSelect = item.size; priceSelect = item.price; productDetailSelect = item.id"
                         >
                         <td v-if="index == 0" rowspan="3" class="text-center" style="border: 1px solid #ddd;">
                             {{item.name}}
@@ -149,6 +153,7 @@ export default {
     dialog_item: false,
     categorys: [],
     sizeSelect: 'M',
+    productDetailSelect: 'M',
     priceSelect: 0,
     productSelect: {},
     product: {
@@ -162,8 +167,8 @@ export default {
   },
 
   methods: {
-    occ(o1, o2){
-      this.sizeSelect = o2;
+    occ(){
+      this.$store.state.total_cart = 2;
     },
     init() {
       axios.get(this.$store.state.api + 'customer/categorys').then( res => {
@@ -183,7 +188,27 @@ export default {
         this.productSelect.id = product.id;
         this.sizeSelect = data[0].size;
         this.priceSelect = data[0].price;
+        this.productDetailSelect = data[0].id;
       })
+    },
+    addToCart() {
+      let dataToSend = {
+        product_id: this.productSelect.id,
+        product_detail_id: this.productDetailSelect,
+      }
+      if (!this.$store.state.token) {
+        this.$router.push('/login');
+      }
+      let config = {
+            headers: {
+                Authorization: "Bearer " + this.$store.state.token
+            }
+        };
+      axios.post(this.$store.state.api + 'customer/addToCart', dataToSend, config).then( res => {
+        const { data } = res;
+        console.log(data);
+      });
+
     }
   },
   created() {
