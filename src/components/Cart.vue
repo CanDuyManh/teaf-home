@@ -23,41 +23,60 @@
 
       <div class="box-body box mt-5">
         <div v-for="(item, index) in carts" :key="index">
-          <v-row  class="ps-5 pt-2 pb-2 be-5">
-          <v-col cols="4">
-            <v-row>
-              <v-col cols="3">
-                <v-img :src="item.images"
-                  width="80" height="80"
-                ></v-img>
-              </v-col>
-              <v-col class="pt-5" cols="6">
-                <span>{{item.name}}</span>
-              </v-col>
-              <v-col class="pt-5" cols="3">
-                <v-select
-                  class="elm_select"
-                  rounded
-                  :items="['M','L','XXL']"
-                  :value="item.size"
-                ></v-select>
-              </v-col>
-            </v-row>
+          <v-row class="ps-5 pt-2 pb-2 be-5">
+            <v-col cols="4">
+              <v-row>
+                <v-col cols="3">
+                  <v-img :src="item.images" width="80" height="80"></v-img>
+                </v-col>
+                <v-col class="pt-5" cols="6">
+                  <span>{{item.name}}</span>
+                </v-col>
+                <v-col class="align-self-center" cols="3">
+                  <v-row>
+                    <v-col class="pt-5" cols="3">
+                      <span>{{item.size}}</span>
+                    </v-col>
+                    <v-col cols="7">
+                      <v-menu offset-y>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn color="black" dark v-bind="attrs" v-on="on" icon @click="clickSize(item.product_id)">
+                            <v-icon>
+                              mdi-menu-down
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <v-list>
+                          <v-list-item v-for="(sizeItem, index) in select_size" :key="index">
+                            <v-list-item-title @click="sizeItem.size == item.size ? '' : updateSize(item,sizeItem)"
+                              class="btn-icon">{{ sizeItem.size }}</v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                    </v-col>
+                  </v-row>
+
+                </v-col>
+              </v-row>
             </v-col>
-          <v-col class="align-self-center" cols="2">
-            <p class="text-center ms-5 mb-0">{{item.price}} đ</p>
-          </v-col>
-          <v-col class="align-self-center text-center" cols="2">
-            <input type="number" class="text-center" @change="(v)=>{item.amount = v.target.value}" :value="item.amount" style="max-width: 60px;border: 1px solid rgb(0 0 0 / 10%);">
-          </v-col>
-          <v-col class="align-self-center" cols="2">
-            <p class="text-center ms-5 mb-0">{{item.price * item.amount}} đ</p>
-          </v-col>
-          <v-col class="align-self-center" cols="2">
-            <p  class="text-center ms-5 mb-0"><a class="" style="color: red;">Xóa</a></p>
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
+            <v-col class="align-self-center" cols="2">
+              <p class="text-center ms-5 mb-0">{{item.price}} đ</p>
+            </v-col>
+            <v-col class="align-self-center text-center" cols="2">
+              <input type="number" class="text-center" @change="(v)=>{
+              $store.state.total_cart = $store.state.total_cart + ( v.target.value - item.amount );
+              item.amount = v.target.value;
+              updateAmount(item);}" :value="item.amount" style="max-width: 60px;border: 1px solid rgb(0 0 0 / 10%);">
+            </v-col>
+            <v-col class="align-self-center" cols="2">
+              <p class="text-center ms-5 mb-0">{{item.price * item.amount}} đ</p>
+            </v-col>
+            <v-col class="align-self-center" cols="2">
+              <p @click="cartRemove(item)" class="text-center ms-5 mb-0"><a class="" style="color: red;">Xóa</a>
+              </p>
+            </v-col>
+          </v-row>
+          <v-divider></v-divider>
         </div>
       </div>
 
@@ -65,51 +84,110 @@
   </div>
 </template>
   
-  <script>
+<script>
 
-    import axios from "axios";
-    export default {
-      name: 'MenuProductItem',
-      props: {
-        category: Object,
-      },
-      data: () => ({
-        carts: []
-      }
-      ),
-      methods: {
-        occ(v){
-          console.log(v.target.value);
-        },
-        getcarts (){
-          const config = {
-            headers: {
-                Authorization: "Bearer " + this.$store.state.token
-            }
-          }
-          axios.get(this.$store.state.api + 'customer/carts', config).then( res => {
-            const { data } = res.data;
-            this.carts = data;
-            console.log(data);
-          });
-        },
-      },
-      created() {
-        if(!this.$store.state.token){
-          this.$router.push('/login');
+import axios from "axios";
+export default {
+  name: 'MenuProductItem',
+  props: {
+    category: Object,
+  },
+  data: () => ({
+    carts: [],
+    select_size: [],
+  }
+  ),
+  methods: {
+    clickSize(pid) {
+      axios.get(this.$store.state.api + 'customer/productDetail/size?product_id=' + pid).then(
+        res => {
+          this.select_size = res.data.data;
         }
-        this.getcarts()
-      },
+      )
+
+    },
+    occ(v) {
+      console.log(v.target.value);
+    },
+    getcarts() {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + this.$store.state.token
+        }
+      }
+      axios.get(this.$store.state.api + 'customer/carts', config).then(res => {
+        const { data } = res.data;
+        this.carts = data;
+      });
+    },
+    updateSize(cart, size) {
+      console.log('cart : ', cart);
+      console.log('size : ', size);
+      axios.post(this.$store.state.api + 'customer/addToCart',
+        {
+          product_id: cart.product_id,
+          product_detail_id: size.id,
+          amount: cart.amount,
+        },
+        this.$store.getters.defauConfig
+      ).then(res => {
+        if (res.data.status == 200) {
+          axios.delete(this.$store.state.api + 'customer/removeToCart/' + cart.cart_id,
+            this.$store.getters.defauConfig
+          ).then(
+            res_delete_cart => {
+              if (res_delete_cart.data.status == 200) {
+                this.getcarts();
+              }
+            }
+          )
+        }
+      });
+    },
+    updateAmount(cart) {
+      console.log(cart);
+      axios.put(this.$store.state.api + 'customer/cart/updateAmount',
+        { cart_id: cart.cart_id, amount: cart.amount },
+        this.$store.getters.defauConfig,
+      ).then(res => {
+        if (!res || res.status != 200 || !res.data || res.data.status != 200) {
+          this.getcarts();
+        }
+      }).catch(
+        () => {
+          this.getcarts();
+        }
+      );
+    },
+    cartRemove(cart) {
+      axios.delete(this.$store.state.api + 'customer/removeToCart/' + cart.cart_id,
+        this.$store.getters.defauConfig
+      ).then(res => {
+        if (!res || res.status != 200 || !res.data || res.data.status != 200) {
+          return this.getcarts();
+        }
+        this.carts = this.carts.filter( v => v.cart_id != cart.cart_id);
+        this.$store.state.total_cart = this.$store.state.total_cart - cart.amount;
+      }).catch(
+        () => {
+          this.getcarts();
+        }
+      );
     }
-  </script>
-  <style>
-    .elm_select > .v-input__control > .v-input__slot {
-      padding: 0px;
+  },
+  created() {
+    if (!this.$store.state.token) {
+      this.$router.push('/login');
     }
-    .box {
-      border: 1px solid rgb(0 0 0 / 5%);
-      background: white;
-      box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%);
-      
-    }
-  </style>
+    this.getcarts()
+  },
+}
+</script>
+<style>
+.box {
+  border: 1px solid rgb(0 0 0 / 5%);
+  background: white;
+  box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%);
+
+}
+</style>

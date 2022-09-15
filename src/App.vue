@@ -131,8 +131,20 @@ export default {
     window.addEventListener('resize', this.onResize)
 
     //load total detail
-    axios.get('')
-
+    if (this.$store.state.token) {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + this.$store.state.token
+        }
+      }
+      axios.get( this.$store.state.api + 'customer/totalCart', config).then(res => {
+        console.log(res);
+        if(res.data && res.data.status == 200) {
+          this.$store.state.total_cart = res.data.count;
+        }
+        
+      });
+    }
   },
 
   beforeDestroy() {

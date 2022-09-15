@@ -27,7 +27,7 @@
             style=""
           ></v-text-field>  
           <div class="text-end">
-            <v-btn style="background-color: antiquewhite;">
+            <v-btn @click="onlogin()" style="background-color: antiquewhite;">
               đăng nhập
             </v-btn>
           </div>

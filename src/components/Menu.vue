@@ -206,7 +206,9 @@ export default {
         };
       axios.post(this.$store.state.api + 'customer/addToCart', dataToSend, config).then( res => {
         const { data } = res;
-        console.log(data);
+        if (data.status == 200) {
+          this.$store.state.total_cart = this.$store.state.total_cart + 1;
+        }
       });
 
     }

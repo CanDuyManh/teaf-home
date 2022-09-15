@@ -105,13 +105,14 @@ export default new Vuex.Store({
                 ],
         },
         
-    ],
+        ],
     },
     getters: {
         isLoggedIn: state => !!state.token,
         routerload: state => state.routerload,
         Snack: state => state.Snack,
         Data: state => state.Data,
+        defauConfig: state => {return {headers: {Authorization: "Bearer " + state.token}}}
     },
     mutations: {},
     actions: {},
