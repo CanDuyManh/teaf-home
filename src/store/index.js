@@ -6,6 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 
     state: {
+        dialog_alter_body: '',
+        dialog_alter: false,
         token: cookies.get('token') || "",
         rvc: sessionStorage.getItem('rvc') || "",
         api: "http://localhost:3000/api/v1/",

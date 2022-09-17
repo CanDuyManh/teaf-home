@@ -92,6 +92,35 @@
     <!-- -->
   <p></p>
   </v-footer>
+  <v-dialog
+    v-model="$store.state.dialog_alter"
+    max-width="200"
+  >
+    <v-card>
+      <v-card-title class="">
+
+      </v-card-title>
+
+      <v-card-text>
+        <span class="text-body-1">
+          {{$store.state.dialog_alter_body}}
+        </span>
+      </v-card-text>
+
+      <v-divider></v-divider>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="primary"
+          text
+          @click="$store.state.dialog_alter = false"
+        >
+          Đóng
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </v-app>
 </template>
 

@@ -70,7 +70,10 @@
                       background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;"
                       @click="addToCart()"
                       >Thêm vào giỏ</v-btn>
-                      <v-btn small dens class="mt-3 d-inline" style="letter-spacing: normal; text-transform: none;background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;">Mua ngay</v-btn>
+                      <v-btn small dens class="mt-3 d-inline" 
+                      style="letter-spacing: normal; text-transform: none;background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;"
+                      @click="onBuy()"
+                      >Mua ngay</v-btn>
 
                     </v-col>
                    </v-row>
@@ -208,10 +211,37 @@ export default {
         const { data } = res;
         if (data.status == 200) {
           this.$store.state.total_cart = this.$store.state.total_cart + 1;
+          this.$store.state.dialog_alter_body = 'Đã thêm vào giỏ hàng.';
+          this.$store.state.dialog_alter = true;
         }
       });
 
-    }
+    },
+    onBuy(){
+      let dataToSend = {
+        product_id: this.productSelect.id,
+        product_detail_id: this.productDetailSelect,
+      }
+      if (!this.$store.state.token) {
+        this.$router.push('/login');
+      }
+      let config = {
+            headers: {
+                Authorization: "Bearer " + this.$store.state.token
+            }
+        };
+      axios.post(this.$store.state.api + 'customer/addToCart', dataToSend, config).then( res => {
+        const { data } = res;
+        if (data.status == 200) {
+          this.$store.state.total_cart = this.$store.state.total_cart + 1;
+          this.$store.state.dialog_alter_body = 'Đã thêm vào giỏ hàng.';
+          this.$store.state.dialog_alter = true;
+          this.$router.push('/cart')
+
+        }
+      });
+
+    },
   },
   created() {
     this.init();

@@ -72,7 +72,8 @@
               <p class="text-center ms-5 mb-0">{{item.price * item.amount}} đ</p>
             </v-col>
             <v-col class="align-self-center" cols="2">
-              <p @click="cartRemove(item)" class="text-center ms-5 mb-0"><a class="" style="color: red;">Xóa</a>
+              <p @click="delete_select = item; delete_confirm = true;" 
+              class="text-center ms-5 mb-0"><a class="" style="color: red;">Xóa</a>
               </p>
             </v-col>
           </v-row>
@@ -81,6 +82,38 @@
       </div>
 
     </div>
+    <v-dialog
+      v-model="delete_confirm"
+      max-width="220"
+    >
+      <v-card>
+        <v-card-title class="">
+        </v-card-title>
+        <v-card-text>
+          <span class="text-body-1">
+            Bạn chắc chắn muốn xóa không ?
+          </span>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="delete_confirm = false"
+          >
+            Hủy
+          </v-btn>
+          <v-btn
+            color="red"
+            text
+            @click="cartRemove(delete_select); delete_confirm = false"
+          >
+            Xóa
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
   
@@ -93,6 +126,8 @@ export default {
     category: Object,
   },
   data: () => ({
+    delete_select: {},
+    delete_confirm: false,
     carts: [],
     select_size: [],
   }
