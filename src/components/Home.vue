@@ -91,6 +91,7 @@
                   background-color: #f5eee8;
                   "
                   class="ms-4"
+                  @click="$router.push('/menu');"
                   >
                   Tìm hiểu thêm
                 </v-btn>

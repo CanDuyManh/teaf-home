@@ -38,6 +38,30 @@ const routes = [
             requiresAuth: true
         }
     },
+    {
+        path: "/about",
+        component: () =>
+            import ('../components/About.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/address",
+        component: () =>
+            import ('../components/Address.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/event",
+        component: () =>
+            import ('../components/Event.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
 
 ]
 const router = new VueRouter({

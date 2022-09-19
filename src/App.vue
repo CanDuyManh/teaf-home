@@ -87,10 +87,11 @@
   <v-footer app
     color="red lighten-4"
     dense
-  >
-      <p class="text--disabled" style="font-size: 14px;">Cám ơn bạn đã quan tâm đến TEA - F</p>
+  > 
+  <div>
+      <p class="text-body1">Teaf</p>
+  </div>
     <!-- -->
-  <p></p>
   </v-footer>
   <v-dialog
     v-model="$store.state.dialog_alter"
