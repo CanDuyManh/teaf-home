@@ -92,20 +92,6 @@ export default new Vuex.Store({
                     }
                 ],
         },
-        {
-            title: 'Liên hệ',
-            link: "/contact",
-            icon: 'mdi-home',
-            list: [],
-            onClick: 
-                [
-                    {
-                      text: 'Liên hệ',
-                      disabled: false,
-                      href: '/contact',
-                    }
-                ],
-        },
         
         ],
     },

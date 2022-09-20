@@ -3,7 +3,7 @@
     <div class="container">
       <div class="box-header box mt-5">
         <v-row class="ps-5 pt-2 pb-2 be-5">
-          <v-col cols="4">
+          <v-col cols="3">
             <p class="ms-5 mb-0">Sản phẩm</p>
           </v-col>
           <v-col cols="2">
@@ -24,7 +24,7 @@
       <div class="box-body box mt-5">
         <div v-for="(item, index) in carts" :key="index">
           <v-row class="ps-5 pt-2 pb-2 be-5">
-            <v-col cols="4">
+            <v-col cols="3">
               <v-row>
                 <v-col cols="3">
                   <v-img :src="item.images" width="80" height="80"></v-img>
@@ -60,7 +60,7 @@
               </v-row>
             </v-col>
             <v-col class="align-self-center" cols="2">
-              <p class="text-center ms-5 mb-0">{{item.price}} đ</p>
+              <p class="text-center ms-5 mb-0">{{moneydot(item.price)}} đ</p>
             </v-col>
             <v-col class="align-self-center text-center" cols="2">
               <input type="number" class="text-center" @change="(v)=>{
@@ -69,7 +69,7 @@
               updateAmount(item);}" :value="item.amount" style="max-width: 60px;border: 1px solid rgb(0 0 0 / 10%);">
             </v-col>
             <v-col class="align-self-center" cols="2">
-              <p class="text-center ms-5 mb-0">{{item.price * item.amount}} đ</p>
+              <p class="text-center ms-5 mb-0">{{moneydot(item.price * item.amount)}} đ</p>
             </v-col>
             <v-col class="align-self-center" cols="2">
               <p @click="delete_select = item; delete_confirm = true;" 
@@ -79,6 +79,29 @@
           </v-row>
           <v-divider></v-divider>
         </div>
+      </div>
+
+      <div class="box-footer box mt-3">
+        <v-row align-self="end">
+          
+          <v-col cols="6">
+          </v-col>
+          <v-col cols="2">
+            <p class="text-body-1 text-end me-5 mt-5">Tổng: </p>
+          </v-col>
+          <v-col cols="2">
+            <p class="text-body-1 text-start me-5 mt-5">{{moneydot(total_money)}} đ</p>
+          </v-col>
+          <v-col cols="2">
+            <p class="text-start me-5 mt-5">
+              <v-btn small dens class="d-inline" 
+                      style="letter-spacing: normal; text-transform: none;
+                      background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;"
+                      @click="payment()"
+                      >Thanh toán</v-btn>
+            </p>
+          </v-col>
+        </v-row>
       </div>
 
     </div>
@@ -130,9 +153,19 @@ export default {
     delete_confirm: false,
     carts: [],
     select_size: [],
+    total_money: 0,
   }
   ),
   methods: {
+    payment(){
+      
+    },
+    getTotalMoney(){
+      this.total_money = 0;
+      for (const item of this.carts) {
+        this.total_money = this.total_money + (item.price * item.amount);
+      }
+    },
     clickSize(pid) {
       axios.get(this.$store.state.api + 'customer/productDetail/size?product_id=' + pid).then(
         res => {
@@ -153,6 +186,8 @@ export default {
       axios.get(this.$store.state.api + 'customer/carts', config).then(res => {
         const { data } = res.data;
         this.carts = data;
+        console.log('doen');
+        this.getTotalMoney();
       });
     },
     updateSize(cart, size) {
@@ -187,12 +222,17 @@ export default {
       ).then(res => {
         if (!res || res.status != 200 || !res.data || res.data.status != 200) {
           this.getcarts();
+        } else {
+          this.getTotalMoney();
         }
       }).catch(
         () => {
           this.getcarts();
         }
       );
+    },
+    moneydot(monney) {
+      return monney.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
     },
     cartRemove(cart) {
       axios.delete(this.$store.state.api + 'customer/removeToCart/' + cart.cart_id,
