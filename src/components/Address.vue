@@ -19,7 +19,7 @@
   
   export default {
     
-    name: 'MenuProductItem',
+    name: 'Address',
     props: {
       category: Object,
     },

@@ -41,7 +41,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: 'ProductManager',
+  name: 'Login',
   data: () => ({
     user_name: '',
     password: '',

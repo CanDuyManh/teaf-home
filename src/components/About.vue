@@ -76,7 +76,7 @@
 <script>
 
 export default {
-  name: 'MenuProductItem',
+  name: 'About',
   props: {
     category: Object,
   },

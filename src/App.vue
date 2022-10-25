@@ -222,4 +222,17 @@ export default {
     font-size: 15px;
     text-decoration: underline;
   }
+
+  .btn-pointer:hover{
+    cursor: pointer;
+  }
+ 
+  .envenlope {
+    visibility: visible;
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-image: repeating-linear-gradient(45deg,#6fa6d6,#6fa6d6 33px,transparent 0,transparent 41px,#f18d9b 0,#f18d9b 74px,transparent 0,transparent 82px);
+  }
+  
 </style>

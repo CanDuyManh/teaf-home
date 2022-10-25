@@ -37,7 +37,7 @@
                     <v-col class="pt-5" cols="3">
                       <span>{{item.size}}</span>
                     </v-col>
-                    <v-col cols="7">
+                    <v-col cols="3">
                       <v-menu offset-y>
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn color="black" dark v-bind="attrs" v-on="on" icon @click="clickSize(item.product_id)">
@@ -95,10 +95,10 @@
           <v-col cols="2">
             <p class="text-start me-5 mt-5">
               <v-btn small dens class="d-inline" 
-                      style="letter-spacing: normal; text-transform: none;
-                      background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;"
-                      @click="payment()"
-                      >Thanh toán</v-btn>
+              style="letter-spacing: normal; text-transform: none;
+              background-color: #f8e5de;border: 1px solid #ddd;color: #b81f32; font-size: ;"
+              @click="payment()"
+              >Thanh toán</v-btn>
             </p>
           </v-col>
         </v-row>
@@ -144,7 +144,7 @@
 
 import axios from "axios";
 export default {
-  name: 'MenuProductItem',
+  name: 'Cart',
   props: {
     category: Object,
   },
@@ -158,7 +158,7 @@ export default {
   ),
   methods: {
     payment(){
-      
+      this.$router.push('/payment')
     },
     getTotalMoney(){
       this.total_money = 0;
@@ -173,9 +173,6 @@ export default {
         }
       )
 
-    },
-    occ(v) {
-      console.log(v.target.value);
     },
     getcarts() {
       const config = {

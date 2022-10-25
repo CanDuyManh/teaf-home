@@ -145,7 +145,7 @@
 import axios from "axios";
 import MenuProductItem from './MenuProductItem.vue';
 export default {
-  name: "Home",
+  name: "Menu",
 
   components: {
     MenuProductItem

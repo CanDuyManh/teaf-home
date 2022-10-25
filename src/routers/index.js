@@ -62,6 +62,30 @@ const routes = [
             requiresAuth: true
         }
     },
+    {
+        path: "/setting",
+        component: () =>
+            import ('../components/Setting.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/profile",
+        component: () =>
+            import ('../components/settingPages/Profile.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/payment",
+        component: () =>
+            import ('../components/Payment.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
 
 ]
 const router = new VueRouter({

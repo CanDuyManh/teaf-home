@@ -10,7 +10,7 @@ export default new Vuex.Store({
         dialog_alter: false,
         token: cookies.get('token') || "",
         rvc: sessionStorage.getItem('rvc') || "",
-        api: "http://localhost:3000/api/v1/",
+        api: "http://192.168.1.59:3000/api/v1/",
         routerload: false,
         Snack: { show: false, msg: "", color: "" },
         Data: sessionStorage.getItem('data') || "",

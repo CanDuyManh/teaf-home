@@ -10,7 +10,7 @@
   
   export default {
     
-    name: 'MenuProductItem',
+    name: 'Event',
     props: {
       category: Object,
     },
