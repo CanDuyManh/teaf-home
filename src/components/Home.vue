@@ -5,21 +5,8 @@
       <v-carousel-item v-for="(item,i) in slide_baner" :key="i" :src="item.src"></v-carousel-item>
     </v-carousel>
     <div class="box-1 ms-5 me-5 mt-1">
-      <v-container>
+      <div>
         <v-row>
-          <v-col cols="12" style="padding: 0;">
-            <v-img
-              src="https://gongcha.com.vn/wp-content/uploads/2018/03/Banner-Trang-Ch%E1%BB%A7-k%E1%BA%BF-%C4%91%E1%BB%8Ba-ch%E1%BB%89-CH-800x380-01.jpg">
-            </v-img>
-          </v-col>
-          <v-col :cols="$store.state.responsive ? 12 : 4" style="padding: 0;">
-            <v-img src="https://gongcha.com.vn/wp-content/uploads/2017/12/banner-6-buoc-395x494.jpg"></v-img>
-          </v-col>
-          <v-col :cols="$store.state.responsive ? 12 : 8" style="padding: 0;">
-            <v-carousel hide-delimiters>
-              <v-carousel-item v-for="(item,i) in slide_baner" :key="i" :src="item.src"></v-carousel-item>
-            </v-carousel>
-          </v-col>
           <v-col :cols="$store.state.responsive ? 12 : 4" style="padding: 0;">
             <v-img src="https://gongcha.com.vn/wp-content/uploads/2022/07/tin-tuc-web-01-1400x1032.jpg"></v-img>
           </v-col>
@@ -32,7 +19,7 @@
             <v-img src="https://gongcha.com.vn/wp-content/uploads/2022/07/tin-tuc-web-01-1400x1032.jpg"></v-img>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </div>
     <div class="box-2" style="height: 210px;">
 
